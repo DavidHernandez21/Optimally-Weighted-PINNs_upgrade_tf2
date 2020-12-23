@@ -1,5 +1,5 @@
 import tensorflow as tf
-from PDEs.PDE import PDENeuralNetwork
+from PDEs_tf2.PDE import PDENeuralNetwork
 
 
 # Base class for the Laplace equation, defining the PDE operators but not the domain or the boundary conditions
