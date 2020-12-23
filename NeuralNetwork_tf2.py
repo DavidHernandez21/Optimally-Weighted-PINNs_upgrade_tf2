@@ -4,6 +4,8 @@ from Enums import ActivationFunction
 from helper_functions.helper_functions import *
 import tensorflow_probability as tfp
 
+tf.compat.v1.disable_v2_behavior()
+
 
 # Neural network class
 class NeuralNetwork:
