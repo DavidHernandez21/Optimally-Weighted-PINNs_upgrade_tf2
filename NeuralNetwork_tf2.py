@@ -1,6 +1,8 @@
 import tensorflow as tf
 import numpy as np
 from Enums import ActivationFunction
+from helper_functions.helper_functions import *
+import tensorflow_probability as tfp
 
 
 # Neural network class
@@ -88,17 +90,31 @@ class NeuralNetwork:
         b = self.biases[-1]
         return tf.add(tf.matmul(y, w), b)
 
+    @make_val_and_grad_fn
+    def loss_func_val_grad(lossFunction):
+        return tf.math.log(lossFunction)
+    
+    def start_lbfgs_minimize(lossFunction):
+        return np.random.randn(tf.math.log(lossFunction))
+    
+    @tf.function
     def Train(self, lossFunction, iterations, feedDict, fetchList, callback):
-        optimizer = tf.contrib.opt.ScipyOptimizerInterface(tf.math.log(lossFunction),
-                                                           method='L-BFGS-B',
-                                                           options={'maxiter': iterations,
-                                                                    'maxfun': iterations,
-                                                                    'maxcor': 50,
-                                                                    'maxls': 50,
-                                                                    'ftol': 1.0 * np.finfo(np.float64).eps,
-                                                                    'gtol': 0.000001})
+#         optimizer = tf.contrib.opt.ScipyOptimizerInterface(tf.log(lossFunction),
+#                                                            method='L-BFGS-B',
+#                                                            options={'maxiter': iterations,
+#                                                                     'maxfun': iterations,
+#                                                                     'maxcor': 50,
+#                                                                     'maxls': 50,
+#                                                                     'ftol': 1.0 * np.finfo(np.float64).eps,
+#                                                                     'gtol': 0.000001})
 
-        optimizer.minimize(self.session, feed_dict=feedDict, fetches=fetchList, loss_callback=callback)
+#         optimizer.minimize(self.session, feed_dict=feedDict, fetches=fetchList, loss_callback=callback)
+        
+        
+        
+        tfp.optimizer.lbfgs_minimize(loss_func_val_grad,
+                                     initial_position=tf.constant(start_lbfgs_minimize(lossFunction)),
+                                     max_iterations=iterations)
 
     def Predict(self, x):
         feedDict = dict()
