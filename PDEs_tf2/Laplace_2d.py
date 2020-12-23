@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from PDEs.LaplaceBase import LaplaceBase
+from PDEs_tf2.LaplaceBase import LaplaceBase
 
 
 class Laplace_2d(LaplaceBase):
