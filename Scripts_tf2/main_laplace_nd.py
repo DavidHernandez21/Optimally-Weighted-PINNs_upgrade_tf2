@@ -1,8 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from NeuralNetwork import NeuralNetwork
-from PDEs.Laplace_nd import Laplace_nd
+from NeuralNetwork_tf2 import NeuralNetwork
+from PDEs_tf2.Laplace_nd import Laplace_nd
 from Enums import ActivationFunction, TrainMode
 
 
